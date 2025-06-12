@@ -35,6 +35,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final NamesCubit cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cubit = NamesCubit();
+  }
+
+  @override
+  void dispose() {
+    cubit.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +57,28 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: Placeholder(),
+      body: StreamBuilder<String?>(
+        stream: cubit.stream,
+        builder: (context, snapshot) {
+          final button = TextButton(
+            onPressed: () {
+              cubit.pickRandomName();
+            },
+            child: const Text('Pick a random name'),
+          );
+
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return button;
+            case ConnectionState.waiting:
+              return button;
+            case ConnectionState.active:
+              return Column(children: [Text(snapshot.data ?? ''), button]);
+            case ConnectionState.done:
+              return const SizedBox();
+          }
+        },
+      ),
     );
   }
 }
