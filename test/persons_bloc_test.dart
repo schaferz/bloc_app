@@ -43,6 +43,7 @@ void main() {
         bloc.add(LoadPersonsAction(url: 'test_url', loader: mockGetPersons1));
       },
       expect: () => [
+        FetchResult(persons: mockedPersons1, isRetrivedFromCache: false),
         FetchResult(persons: mockedPersons1, isRetrivedFromCache: true),
       ],
     );
@@ -55,6 +56,7 @@ void main() {
         bloc.add(LoadPersonsAction(url: 'test_url2', loader: mockGetPersons2));
       },
       expect: () => [
+        FetchResult(persons: mockedPersons2, isRetrivedFromCache: false),
         FetchResult(persons: mockedPersons2, isRetrivedFromCache: true),
       ],
     );

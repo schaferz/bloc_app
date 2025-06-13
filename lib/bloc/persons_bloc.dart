@@ -50,7 +50,10 @@ class PersonsBloc extends Bloc<LoadAction, FetchResult?> {
         final persons = await loader(url);
 
         _cache[url] = persons;
-        final result = FetchResult(persons: persons, isRetrivedFromCache: true);
+        final result = FetchResult(
+          persons: persons,
+          isRetrivedFromCache: false,
+        );
 
         emit(result);
       }
